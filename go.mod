@@ -1,4 +1,4 @@
-module github.com/mightatnight/wrap-http
+module github.com/broaskaGit/wrap-http
 
 go 1.24.5
 
