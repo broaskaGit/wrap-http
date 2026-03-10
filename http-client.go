@@ -258,7 +258,7 @@ func (c *httpClient) Connect(ctx context.Context, url string, headers map[string
 	return c.Do(ctx, http.MethodConnect, url, headers, nil)
 }
 
-func (c *httpClient) CloseConnections() {
+func (c *httpClient) CloseIdleConnections() {
 	c.client.Transport.CloseIdleConnections()
 }
 

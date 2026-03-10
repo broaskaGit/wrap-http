@@ -129,8 +129,8 @@ type Client interface {
 	// Returns the HTTP response and any error encountered.
 	Connect(ctx context.Context, url string, headers map[string]string) *req.Response
 
-	// CloseConnection closes all connections, goroutine safe
-	CloseConnections()
+	// CloseIdleConnection closes all idle connections, goroutine safe
+	CloseIdleConnections()
 
 	// Close closes the HTTP client, it's forbidden to use the client after this method is called.
 	Close()
