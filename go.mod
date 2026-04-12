@@ -3,16 +3,16 @@ module github.com/broaskaGit/wrap-http
 go 1.26.2
 
 require (
+	github.com/andybalholm/brotli v1.2.1
 	github.com/imroc/req/v3 v3.57.0
+	github.com/klauspost/compress v1.18.5
 	github.com/mailru/easyjson v0.9.2
 )
 
 require (
-	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/icholy/digest v1.1.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
-	github.com/klauspost/compress v1.18.2 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.57.1 // indirect
 	github.com/refraction-networking/utls v1.8.1 // indirect
