@@ -60,6 +60,10 @@ type Client interface {
 	// Also give the checkURL to check if the proxy is working
 	SetProxy(proxyURL string, checkURL string) error
 
+	// SetResponseBodyTransformer Sets the response body transformer.
+	// fn is a function that takes the raw response body, request, and response as input and returns the transformed response body and an error.
+	SetResponseBodyTransformer(fn func(rawBody []byte, req *req.Request, resp *req.Response) (transformedBody []byte, err error))
+
 	// Client returns the underlying req.Client used by the Client.
 	Client() *req.Client
 

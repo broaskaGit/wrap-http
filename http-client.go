@@ -1,14 +1,20 @@
 package wrap
 
 import (
+	"bytes"
+	"compress/flate"
+	"compress/gzip"
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"maps"
 	"net/http"
 	"time"
 
+	"github.com/andybalholm/brotli"
 	"github.com/imroc/req/v3"
+	"github.com/klauspost/compress/zstd"
 	"github.com/mailru/easyjson"
 )
 
@@ -168,6 +174,49 @@ func (c *httpClient) SetProxy(proxyURL string, checkURL string) error {
 	}
 
 	return nil
+}
+
+func (c *httpClient) SetResponseBodyTransformer(fn func(rawBody []byte, req *req.Request, resp *req.Response) (transformedBody []byte, err error)) {
+	if fn == nil {
+		fn = func(rawBody []byte, req *req.Request, resp *req.Response) (transformedBody []byte, err error) {
+			// Try gzip
+			if gzipReader, err := gzip.NewReader(bytes.NewReader(rawBody)); err == nil {
+				if out, err := io.ReadAll(gzipReader); err == nil {
+					_ = gzipReader.Close()
+					return out, nil
+				}
+				_ = gzipReader.Close()
+			}
+
+			// Try deflate
+			if deflateReader := flate.NewReader(bytes.NewReader(rawBody)); deflateReader != nil {
+				if out, err := io.ReadAll(deflateReader); err == nil {
+					_ = deflateReader.Close()
+					return out, nil
+				}
+				_ = deflateReader.Close()
+			}
+
+			// Try brotli
+			if brotliReader := brotli.NewReader(bytes.NewReader(rawBody)); brotliReader != nil {
+				if out, err := io.ReadAll(brotliReader); err == nil {
+					return out, nil
+				}
+			}
+
+			// Try zstd
+			if decoder, err := zstd.NewReader(bytes.NewReader(rawBody)); err == nil {
+				defer decoder.Close()
+				if out, err := io.ReadAll(decoder); err == nil {
+					return out, nil
+				}
+			}
+
+			return rawBody, nil
+		}
+	}
+
+	c.client.SetResponseBodyTransformer(fn)
 }
 
 func (c *httpClient) Client() *req.Client {
