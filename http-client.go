@@ -15,7 +15,7 @@ import (
 	"github.com/andybalholm/brotli"
 	"github.com/imroc/req/v3"
 	"github.com/klauspost/compress/zstd"
-	"github.com/mailru/easyjson"
+	"github.com/mightatnight/easyjson"
 )
 
 // Implementation check

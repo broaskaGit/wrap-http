@@ -1,12 +1,12 @@
 module github.com/broaskaGit/wrap-http
 
-go 1.26.2
+go 1.26.3
 
 require (
 	github.com/andybalholm/brotli v1.2.1
 	github.com/imroc/req/v3 v3.57.0
 	github.com/klauspost/compress v1.18.5
-	github.com/mailru/easyjson v0.9.2
+	github.com/mightatnight/easyjson v0.9.2
 )
 
 require (

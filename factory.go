@@ -1,6 +1,6 @@
 package wrap
 
-import "github.com/mailru/easyjson"
+import "github.com/mightatnight/easyjson"
 
 // UnmarshallerFactory is a function that creates a new instance of an easyjson.Unmarshaler
 // Used to avoid unnecessary allocations when response is unsuccessful
